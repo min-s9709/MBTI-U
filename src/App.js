@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
 import Board from "./pages/Board";
 import BoardDetail from "./pages/BoardDetail";
 import Chat from "./pages/Chat";
@@ -11,6 +12,7 @@ import Register from "./pages/Register";
 const App = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie" element={<Movie />} />
