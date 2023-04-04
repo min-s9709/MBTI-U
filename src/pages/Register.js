@@ -1,5 +1,11 @@
+import UserRegister from "../components/UserRegister";
+
 const Register = () => {
-  return <div>Register</div>;
+  return (
+    <>
+      <UserRegister />
+    </>
+  );
 };
 
 export default Register;
