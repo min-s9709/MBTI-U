@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans&family=Source+Sans+Pro:wght@300;400&display=swap');
     html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -28,6 +29,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: 'Source Sans Pro', sans-serif;
+	background-color: rgba(0,0,0,0.1);
 }
 ol, ul {
 	list-style: none;
