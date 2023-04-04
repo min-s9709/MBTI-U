@@ -34,6 +34,8 @@ const CategoriesBlock = styled.div`
   padding: 1rem;
   width: 100%;
   background-color: #3498db;
+  position: fixed;
+  top: 0;
 `;
 
 const Category = styled(NavLink)`
