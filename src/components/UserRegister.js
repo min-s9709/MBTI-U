@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 150px;
+  margin-top: 120px;
   box-shadow: 0 2px 3rem rgba(0, 0, 0, 0.25), 0 2px 1px rgba(0, 0, 0, 0.22);
 `;
 
