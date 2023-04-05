@@ -11,6 +11,8 @@
     "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "styled-components": "^5.3.9",
     "web-vitals": "^2.1.0"
   },
