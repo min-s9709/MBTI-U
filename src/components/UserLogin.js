@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../recoil/userAtom";
+import { useEffect } from "react";
+import { useState } from "react";
+import { isLogin } from "../recoil/loginStatus";
 
 const Wrapper = styled.div`
   width: 500px;
@@ -12,7 +17,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 150px;
+  margin-top: 120px;
   box-shadow: 0 2px 3rem rgba(0, 0, 0, 0.25), 0 2px 1px rgba(0, 0, 0, 0.22);
 `;
 
@@ -66,12 +71,27 @@ const Footer = styled.footer`
 `;
 
 const UserLogin = () => {
-  const { register, setValue, handleSubmit } = useForm();
+  const [userData, setUserData] = useRecoilState(userInfoState);
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const onValid = (data) => {
-    console.log(data);
-    navigate("/");
+  const onValid = async (data) => {
+    const { userNick, userPassword } = data;
+    setUserData((prev) => ({
+      ...prev,
+      userNick,
+      userPassword,
+    }));
+    setIsLogined((prev) => !prev);
   };
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("isLogined", JSON.stringify(isLogined));
+    if (isLogined) {
+      navigate("/");
+    }
+  }, [userData, navigate, isLogined]);
   return (
     <Wrapper>
       <Title>Login</Title>

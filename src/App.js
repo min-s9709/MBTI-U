@@ -8,11 +8,13 @@ import Login from "./pages/Login";
 import Movie from "./pages/Movie";
 import MovieDetail from "./pages/MovieDetail";
 import Register from "./pages/Register";
+import LoginInfoArea from "./components/LoginInfoArea";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
+      <LoginInfoArea />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movie" element={<Movie />} />
