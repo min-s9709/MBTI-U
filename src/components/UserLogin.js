@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useEffect } from "react";
-import { useState } from "react";
 import { isLogin } from "../recoil/loginStatus";
 
 const Wrapper = styled.div`
@@ -82,13 +81,16 @@ const UserLogin = () => {
       userNick,
       userPassword,
     }));
-    setIsLogined((prev) => !prev);
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
   };
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("userData", JSON.stringify(userData));
     localStorage.setItem("isLogined", JSON.stringify(isLogined));
-    if (isLogined) {
+    if (isLogined.login) {
       navigate("/");
     }
   }, [userData, navigate, isLogined]);

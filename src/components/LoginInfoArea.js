@@ -1,8 +1,7 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userInfoState } from "../recoil/userAtom";
 import { isLogin } from "../recoil/loginStatus";
-import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,15 +34,16 @@ const Button = styled.button`
 
 const LoginInfoArea = () => {
   const user = useRecoilValue(userInfoState);
-  const [isLogined, setIsLogined] = useRecoilState(isLogin);
+  const isLogined = useRecoilValue(isLogin);
   const { userNick } = user;
+
   const userLogout = () => {
-    setIsLogined((prev) => !prev);
     localStorage.clear();
   };
+  console.log(isLogined.login);
   return (
     <Wrapper>
-      {isLogined ? (
+      {isLogined.login ? (
         <>
           <Span>{userNick}님 환영합니다😃</Span>
           <Button onClick={userLogout}>로그아웃</Button>
