@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { userInfoState } from "../recoil/userAtom";
 import { isLogin } from "../recoil/loginStatus";
@@ -33,15 +33,22 @@ const Button = styled.button`
 `;
 
 const LoginInfoArea = () => {
-  const user = useRecoilValue(userInfoState);
+  const [userData, setUserData] = useRecoilState(userInfoState);
   const [isLogined, setIsLogined] = useRecoilState(isLogin);
-  const { userNick } = user;
+  const { userNick } = userData;
 
   const userLogout = () => {
     setIsLogined((prev) => ({
       ...prev,
       login: !prev.login,
     }));
+
+    setUserData((prev) => ({
+      ...prev,
+      userNick: "",
+      userPassword: "",
+    }));
+
     localStorage.clear();
   };
 
