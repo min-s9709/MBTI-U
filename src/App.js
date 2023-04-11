@@ -9,6 +9,7 @@ import Movie from "./pages/Movie";
 import MovieDetail from "./pages/MovieDetail";
 import Register from "./pages/Register";
 import LoginInfoArea from "./components/LoginInfoArea";
+import BoardWrite from "./pages/BoardWrite";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
+        <Route path="/boardwrite" element={<BoardWrite />} />
         <Route path="/board/:id" element={<BoardDetail />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
