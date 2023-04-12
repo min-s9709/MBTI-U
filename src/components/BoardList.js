@@ -5,73 +5,73 @@ import { useNavigate } from "react-router-dom";
 const boardList = [
   {
     id: 1,
-    title: "고민이 있습니다..",
+    title: "고민이 있습니다...",
     content: "내용 1",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 2,
     title: "제목 2",
     content: "내용 2",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 3,
     title: "제목 3",
     content: "내용 3",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 4,
     title: "제목 4",
     content: "내용 4",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 5,
     title: "제목 5",
     content: "내용 5",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 6,
     title: "제목 6",
     content: "내용 6",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 7,
     title: "제목 7",
     content: "내용 7",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 8,
     title: "제목 8",
     content: "내용 8",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 9,
     title: "제목 9",
     content: "내용 9",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
   {
     id: 10,
     title: "제목 10",
     content: "내용 10",
     viewCnt: 0,
-    regDate: Date.now(),
+    regDate: new Date().toLocaleDateString(),
   },
 ];
 
@@ -130,6 +130,7 @@ const InfoWrapper = styled.div`
   align-items: center;
   height: 30px;
   margin-right: 55px;
+  margin-left: 50px;
 `;
 
 const BoardItemWrapper = styled.div`

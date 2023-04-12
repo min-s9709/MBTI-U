@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const ItemContainer = styled.div`
@@ -23,7 +24,9 @@ const BoardListItem = ({ id, title, viewCnt, regDate }) => {
         <h3>{id}</h3>
       </ItemContentWrapper>
       <ItemContentWrapper>
-        <h3> {title}</h3>
+        <Link to={`/board/${id}`}>
+          <h3>{title}</h3>
+        </Link>
       </ItemContentWrapper>
       <ItemContentWrapper>
         <h3>{viewCnt}</h3>
