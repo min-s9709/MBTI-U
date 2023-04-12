@@ -1,5 +1,13 @@
+import Editor from "../components/Editor";
+import PostWriteButton from "../components/PostWriteButton";
+
 const BoardWrite = () => {
-  return <div>Board Write Page</div>;
+  return (
+    <>
+      <Editor />
+      <PostWriteButton />
+    </>
+  );
 };
 
 export default BoardWrite;
