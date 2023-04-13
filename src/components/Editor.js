@@ -1,58 +1,71 @@
 import styled from "styled-components";
-import { Quill } from "react-quill";
-import "quill/dist/quill.bubble.css";
-import { useEffect, useRef } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useState } from "react";
 
 const EditorWrapper = styled.div`
   width: 800px;
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 70px;
   padding: 10px;
 `;
 
 const TitleInput = styled.input`
-  font-size: 36px;
+  font-size: 28px;
   outline: none;
   border: none;
   border-bottom: 2px solid lightgray;
-  border-radius: 20px;
+  border-radius: 12px;
   margin-bottom: 15px;
   padding: 5px 10px;
   width: 100%;
 `;
-
 const QuillWrapper = styled.div`
-  height: 350px;
-  div {
-    background-color: white;
-    font-size: 15px;
-    border-radius: 20px;
+  height: 500px;
+  background-color: white;
+  .ql-editor {
+    padding: 5px;
+    height: 460px;
+    font-size: 24px;
+    line-height: 1.5;
   }
 `;
 const Editor = () => {
-  const quillElement = useRef(null);
-  const quillInstance = useRef(null);
+  const [body, setBody] = useState("");
+  const [title, setTitle] = useState("");
+  const handleContent = (value) => {
+    setBody(value);
+  };
 
-  useEffect(() => {
-    quillInstance.current = new Quill(quillElement.current, {
-      theme: "bubble",
-      placeholder: "내용을 작성하세요...",
-      modules: {
-        toolbar: [
-          [{ header: "1" }, { header: "2" }],
-          ["bold", "italic", "underline", "strike"],
-          [{ list: "ordered" }, { list: "bullet" }],
-          ["blockquote", "code-block", "link", "image"],
-        ],
-      },
-    });
-  }, []);
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
   return (
     <EditorWrapper>
-      <TitleInput placeholder="제목을 작성하세요..." />
+      <TitleInput onChange={handleTitle} placeholder="제목을 작성하세요..." />
       <QuillWrapper>
-        <div ref={quillElement}></div>
+        <ReactQuill
+          value={body}
+          onChange={(content, delta, source, editor) =>
+            handleContent(editor.getHTML())
+          }
+          theme="snow"
+          modules={{
+            toolbar: [
+              [{ header: "1" }, { header: "2" }],
+              ["bold", "italic", "underline", "strike"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              ["blockquote", "code-block", "link", "image"],
+            ],
+          }}
+          placeholder="내용을 입력하세요..."
+        />
       </QuillWrapper>
+      <div>
+        <h1>{title}</h1>
+        <h2 dangerouslySetInnerHTML={{ __html: body }} />
+      </div>
     </EditorWrapper>
   );
 };

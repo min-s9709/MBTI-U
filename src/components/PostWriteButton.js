@@ -15,7 +15,7 @@ const Btn = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-right: 10px;
   font-size: 12px;
   &:hover {
