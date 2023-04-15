@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { registerRequest } from "../lib/api";
 
 const Wrapper = styled.div`
   width: 500px;
@@ -69,11 +70,17 @@ const Footer = styled.footer`
 `;
 
 const UserRegister = () => {
-  const { register, setValue, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const onValid = (data) => {
-    console.log(data);
-    navigate("/login");
+  const onValid = async (data) => {
+    try {
+      let result = await registerRequest(data);
+      if (result.resultCode === "success") {
+        navigate("/login");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <Wrapper>
@@ -87,7 +94,7 @@ const UserRegister = () => {
         />
         <Input
           {...register("userRegisterPassword", {
-            requored: "Password를 한번 더 입력해주세요...",
+            required: "Password를 한번 더 입력해주세요...",
           })}
           placeholder="Password"
           type="password"
@@ -96,7 +103,7 @@ const UserRegister = () => {
           {...register("userPasswordConfirm", {
             required: "Password를 꼭 입력해주세요...",
           })}
-          placeholder="Password"
+          placeholder="Password Confirm"
           type="password"
         />
         <Input
