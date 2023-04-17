@@ -31,6 +31,7 @@ body {
 	line-height: 1;
 	font-family: 'Source Sans Pro', sans-serif;
 	background-color: rgba(0,0,0,0.1);
+	height: 100vh;
 }
 ol, ul {
 	list-style: none;
