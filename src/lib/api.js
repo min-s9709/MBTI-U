@@ -5,7 +5,7 @@ export const registerRequest = (userData) => {
     .post("/register", {
       nick: userData.userRegisterNick,
       pw: userData.userRegisterPassword,
-      mbti: userData.userMBTI,
+      mbti: userData.userMBTI.toUpperCase(),
     })
     .then((response) => response.data);
   return result;
