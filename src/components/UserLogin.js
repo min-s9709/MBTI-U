@@ -5,6 +5,8 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useEffect } from "react";
 import { isLogin } from "../recoil/loginStatus";
+import { loginRequest } from "../lib/api";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   width: 500px;
@@ -33,7 +35,8 @@ const Title = styled.h2`
 `;
 
 const Input = styled.input`
-  margin-top: 50px;
+  margin-top: 40px;
+  margin-bottom: 5px;
   background-color: #fff;
   border: none;
   border-radius: 20px;
@@ -42,7 +45,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  width: 100%;
+  width: 150px;
   cursor: pointer;
   background-color: #2980b9;
   color: white;
@@ -69,31 +72,53 @@ const Footer = styled.footer`
   }
 `;
 
+const LoginError = styled.span`
+  color: red;
+  font-size: 12px;
+`;
+
 const UserLogin = () => {
   const [userData, setUserData] = useRecoilState(userInfoState);
   const [isLogined, setIsLogined] = useRecoilState(isLogin);
-  const { register, handleSubmit } = useForm();
+  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const onValid = async (data) => {
     const { userNick, userPassword } = data;
-    setUserData((prev) => ({
-      ...prev,
-      userNick,
-      userPassword,
-    }));
-    setIsLogined((prev) => ({
-      ...prev,
-      login: !prev.login,
-    }));
+    try {
+      let loginResult = await loginRequest(userNick, userPassword);
+      if (loginResult.resultCode === "success") {
+        setIsLogined((prev) => ({
+          ...prev,
+          login: !prev.login,
+        }));
+        setUserData((prev) => ({
+          ...prev,
+          userNick,
+          userPassword,
+        }));
+        navigate("/");
+      }
+    } catch (e) {
+      if (e.response.data.resultCode === "NOT_FOUND") {
+        setErrorMessage("등록되어 있지 않은 회원입니다.");
+      } else if (e.response.data.resultCode === "INVALID_PASSWORD") {
+        setErrorMessage("Password가 틀립니다.");
+      }
+      setValue("userNick", "");
+      setValue("userPassword", "");
+    }
   };
-
   useEffect(() => {
-    localStorage.setItem("userData", JSON.stringify(userData));
-    localStorage.setItem("isLogined", JSON.stringify(isLogined));
-    if (isLogined.login) {
+    if (isLogined.login === true) {
       navigate("/");
     }
-  }, [userData, navigate, isLogined]);
+  }, [isLogined, navigate]);
   return (
     <Wrapper>
       <Title>Login</Title>
@@ -102,6 +127,7 @@ const UserLogin = () => {
           {...register("userNick", { required: "ID를 꼭 입력해주세요..." })}
           placeholder="ID"
         />
+        {errors.userNick && <LoginError>{errors.userNick.message}</LoginError>}
         <Input
           {...register("userPassword", {
             required: "Password를 꼭 입력해주세요...",
@@ -109,10 +135,14 @@ const UserLogin = () => {
           placeholder="Password"
           type="password"
         />
+        {errors.userPassword && (
+          <LoginError>{errors.userPassword.message}</LoginError>
+        )}
         <Button>Log In</Button>
       </Form>
       <Footer>
         <p>회원가입이 필요하신가요?</p>
+        <LoginError>{errorMessage}</LoginError>
         <Button>
           <Link to="/register">Sign Up</Link>
         </Button>
