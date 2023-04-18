@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { userInfoState } from "../recoil/userAtom";
 import { isLogin } from "../recoil/loginStatus";
+import { getCookie, removeCookie } from "../util/cookie";
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,10 +49,10 @@ const LoginInfoArea = () => {
       userNick: "",
       userPassword: "",
     }));
-
+    removeCookie("loginToken", { path: "/" });
     localStorage.clear();
   };
-
+  console.log(getCookie("loginToken"));
   return (
     <Wrapper>
       {isLogined.login ? (

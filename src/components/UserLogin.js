@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { isLogin } from "../recoil/loginStatus";
 import { loginRequest } from "../lib/api";
 import { useState } from "react";
+import { setCookie } from "../util/cookie";
 
 const Wrapper = styled.div`
   width: 500px;
@@ -92,6 +93,13 @@ const UserLogin = () => {
     const { userNick, userPassword } = data;
     try {
       let loginResult = await loginRequest(userNick, userPassword);
+      if (loginResult.result.token) {
+        setCookie("loginToken", loginResult.result.token, {
+          path: "/",
+          secure: true,
+          sameSite: "none",
+        });
+      }
       if (loginResult.resultCode === "success") {
         setIsLogined((prev) => ({
           ...prev,
@@ -119,6 +127,7 @@ const UserLogin = () => {
       navigate("/");
     }
   }, [isLogined, navigate]);
+
   return (
     <Wrapper>
       <Title>Login</Title>
