@@ -7,70 +7,70 @@ const boardList = [
     id: 1,
     title: "고민이 있습니다...",
     content: "내용 1",
-    viewCnt: 0,
+    boardWriter: "testID",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 2,
     title: "제목 2",
     content: "내용 2",
-    viewCnt: 0,
+    boardWriter: "mim9709",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 3,
     title: "제목 3",
     content: "내용 3",
-    viewCnt: 0,
+    boardWriter: "test1",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 4,
     title: "제목 4",
     content: "내용 4",
-    viewCnt: 0,
+    boardWriter: "test2",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 5,
     title: "제목 5",
     content: "내용 5",
-    viewCnt: 0,
+    boardWriter: "test3",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 6,
     title: "제목 6",
     content: "내용 6",
-    viewCnt: 0,
+    boardWriter: "test4",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 7,
     title: "제목 7",
     content: "내용 7",
-    viewCnt: 0,
+    boardWriter: "test5",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 8,
     title: "제목 8",
     content: "내용 8",
-    viewCnt: 0,
+    boardWriter: "test6",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 9,
     title: "제목 9",
     content: "내용 9",
-    viewCnt: 0,
+    boardWriter: "test7",
     regDate: new Date().toLocaleDateString(),
   },
   {
     id: 10,
     title: "제목 10",
     content: "내용 10",
-    viewCnt: 0,
+    boardWriter: "test8",
     regDate: new Date().toLocaleDateString(),
   },
 ];
@@ -154,13 +154,10 @@ const BoardList = () => {
       </PostButtonWrapper>
       <BoardInfo>
         <InfoWrapper>
-          <h2>번호</h2>
-        </InfoWrapper>
-        <InfoWrapper>
           <h2>제목</h2>
         </InfoWrapper>
         <InfoWrapper>
-          <h2>조회수</h2>
+          <h2>작성자</h2>
         </InfoWrapper>
         <InfoWrapper>
           <h2>작성일</h2>
