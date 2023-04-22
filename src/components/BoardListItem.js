@@ -6,7 +6,7 @@ const ItemContainer = styled.div`
   justify-content: space-between;
   width: 650px;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border-bottom: 2px solid #b2bec3;
   padding: 5px;
 `;
@@ -15,6 +15,8 @@ const ItemContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex: 1;
+  margin-left: 50px;
   a:hover {
     color: #b2bec3;
   }

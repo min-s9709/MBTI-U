@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const boardList = [
   {
     id: 1,
-    title: "고민이 있습니다...",
+    title: "고민이 있습니다...........",
     content: "내용 1",
     boardWriter: "testID",
     regDate: new Date().toLocaleDateString(),
@@ -79,9 +79,9 @@ const BoardListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 800px;
-  height: 100vh;
-  margin-top: 100px;
+  width: 750px;
+  height: 700px;
+  margin-top: 80px;
   justify-content: center;
   align-items: center;
   margin-top: 50px;
@@ -91,21 +91,23 @@ const BoardListWrapper = styled.div`
 `;
 
 const MbtiBoardName = styled.h1`
-  font-size: 36px;
+  font-size: 32px;
 `;
 
 const PostButtonWrapper = styled.div`
-  width: 150px;
+  width: 120px;
   margin-bottom: 15px;
+  margin-top: 10px;
 `;
 
 const BoardInfo = styled.div`
   display: flex;
-  width: 100%;
+  width: 650px;
   justify-content: space-around;
   align-items: center;
   background-color: #74b9ff;
   color: white;
+  font-weight: 600;
 `;
 
 const Button = styled.button`
