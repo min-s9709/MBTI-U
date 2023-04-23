@@ -10,6 +10,7 @@ import MovieDetail from "./pages/MovieDetail";
 import Register from "./pages/Register";
 import LoginInfoArea from "./components/LoginInfoArea";
 import BoardWrite from "./pages/BoardWrite";
+import BoardComment from "./pages/BoardComment";
 
 const App = () => {
   return (
@@ -24,7 +25,9 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
         <Route path="/boardwrite" element={<BoardWrite />} />
-        <Route path="/board/:id" element={<BoardDetail />} />
+        <Route path="/board/:id" element={<BoardDetail />}>
+          <Route path="boardcomment" element={<BoardComment />} />
+        </Route>
         <Route path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
