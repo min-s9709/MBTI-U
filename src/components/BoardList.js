@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import BoardListItem from "./BoardListItem";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../recoil/userAtom";
 
 const boardList = [
   {
@@ -144,13 +146,14 @@ const BoardItemWrapper = styled.div`
 `;
 
 const BoardList = () => {
+  const userData = useRecoilValue(userInfoState);
   const navigate = useNavigate();
   const onClick = () => {
     navigate("/boardwrite");
   };
   return (
     <BoardListWrapper>
-      <MbtiBoardName>ESTP 게시판</MbtiBoardName>
+      <MbtiBoardName>{userData.userMBTI} 게시판</MbtiBoardName>
       <PostButtonWrapper>
         <Button onClick={onClick}>글 작성하기</Button>
       </PostButtonWrapper>

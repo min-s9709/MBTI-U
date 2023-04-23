@@ -2,14 +2,14 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { userInfoState } from "../recoil/userAtom";
 import { isLogin } from "../recoil/loginStatus";
-import { getCookie, removeCookie } from "../util/cookie";
+import { removeCookie } from "../util/cookie";
 
 const Wrapper = styled.div`
   display: flex;
   position: relative;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 10px;
   top: 55px;
   right: 0;
 `;
