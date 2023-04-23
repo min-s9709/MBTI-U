@@ -109,6 +109,7 @@ const UserLogin = () => {
           ...prev,
           userNick,
           userPassword,
+          userMBTI: loginResult.result.mbti,
         }));
         navigate("/");
       }

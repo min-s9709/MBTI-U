@@ -52,7 +52,6 @@ const LoginInfoArea = () => {
     removeCookie("loginToken", { path: "/" });
     localStorage.clear();
   };
-  console.log(getCookie("loginToken"));
   return (
     <Wrapper>
       {isLogined.login ? (

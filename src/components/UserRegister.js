@@ -89,7 +89,6 @@ const UserRegister = () => {
       let result = await registerRequest(data);
       if (result.resultCode === "success") {
         navigate("/login");
-        console.log("회원가입 완료");
       }
     } catch (e) {
       if (e.response.data.resultCode === "DUPLICATE_RESOURCE") {
