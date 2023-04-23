@@ -47,7 +47,7 @@ const LoginInfoArea = () => {
     setUserData((prev) => ({
       ...prev,
       userNick: "",
-      userPassword: "",
+      userMBTI: "",
     }));
     removeCookie("loginToken", { path: "/" });
     localStorage.clear();

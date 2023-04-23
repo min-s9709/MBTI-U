@@ -108,7 +108,6 @@ const UserLogin = () => {
         setUserData((prev) => ({
           ...prev,
           userNick,
-          userPassword,
           userMBTI: loginResult.result.mbti,
         }));
         navigate("/");

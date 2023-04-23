@@ -8,7 +8,6 @@ export const loadUserData = () => {
   } else {
     return {
       userNick: "",
-      userPassword: "",
       userMBIT: "",
     };
   }
