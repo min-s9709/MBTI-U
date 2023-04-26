@@ -1,172 +1,12 @@
 import styled from "styled-components";
 import BoardListItem from "./BoardListItem";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import Pagination from "react-js-pagination";
-import { useState } from "react";
-const boardList = [
-  {
-    id: 1,
-    title: "고민이 있습니다...........",
-    content: "내용 1",
-    boardWriter: "testID",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 2,
-    title: "제목 2",
-    content: "내용 2",
-    boardWriter: "mim9709",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 3,
-    title: "제목 3",
-    content: "내용 3",
-    boardWriter: "test1",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 4,
-    title: "제목 4",
-    content: "내용 4",
-    boardWriter: "test2",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 5,
-    title: "제목 5",
-    content: "내용 5",
-    boardWriter: "test3",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 6,
-    title: "제목 6",
-    content: "내용 6",
-    boardWriter: "test4",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 7,
-    title: "제목 7",
-    content: "내용 7",
-    boardWriter: "test5",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 8,
-    title: "제목 8",
-    content: "내용 8",
-    boardWriter: "test6",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 9,
-    title: "제목 9",
-    content: "내용 9",
-    boardWriter: "test7",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 10,
-    title: "제목 10",
-    content: "내용 10",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 11,
-    title: "제목 11",
-    content: "내용 11",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 12,
-    title: "제목 12",
-    content: "내용 12",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 13,
-    title: "제목 13",
-    content: "내용 13",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 14,
-    title: "제목 10",
-    content: "내용 10",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 15,
-    title: "제목 15",
-    content: "내용 15",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 16,
-    title: "제목 16",
-    content: "내용 16",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 17,
-    title: "제목 17",
-    content: "내용 17",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 18,
-    title: "제목 18",
-    content: "내용 18",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 19,
-    title: "제목 19",
-    content: "내용 19",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-  {
-    id: 20,
-    title: "제목 20",
-    content: "내용 20",
-    boardWriter: "test8",
-    mbti: "ESTP",
-    regDate: new Date().toLocaleDateString(),
-  },
-];
+import { useEffect, useState } from "react";
+import { boardListGetRequest } from "../lib/api";
+import { boardList } from "../recoil/boardAtom";
 
 const BoardListWrapper = styled.div`
   display: flex;
@@ -233,7 +73,7 @@ const BoardItemWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const PaginationBox = styled.div`
@@ -281,9 +121,19 @@ const PaginationBox = styled.div`
 
 const BoardList = () => {
   const userData = useRecoilValue(userInfoState);
+  const [board, setBoard] = useRecoilState(boardList);
   const [page, setPage] = useState(1);
   const items = 10;
   const navigate = useNavigate();
+  useEffect(() => {
+    const getBoardList = async () => {
+      const result = await boardListGetRequest();
+      setBoard(result);
+    };
+    getBoardList();
+  }, [setBoard]);
+  const boardMbtiList = board.filter((item) => item.mbti === userData.userMBTI);
+  const sortedBoardList = boardMbtiList.sort((a, b) => b.id - a.id);
   const onClick = () => {
     navigate("/boardwrite");
   };
@@ -309,18 +159,22 @@ const BoardList = () => {
         </InfoWrapper>
       </BoardInfo>
       <BoardItemWrapper>
-        {boardList
-          .slice(items * (page - 1), items * (page - 1) + items)
-          .map((item) => (
-            <BoardListItem key={item.id} {...item} />
-          ))}
+        {sortedBoardList
+          ? sortedBoardList
+              .slice(items * (page - 1), items * (page - 1) + items)
+              .map((item) => <BoardListItem key={item.id} {...item} />)
+          : null}
       </BoardItemWrapper>
       <PaginationBox>
         <Pagination
           activePage={page}
           itemsCountPerPage={items}
-          totalItemsCount={boardList.length - 1}
-          pageRangeDisplayed={boardList.length / items}
+          totalItemsCount={sortedBoardList.length - 1}
+          pageRangeDisplayed={
+            sortedBoardList.length % items === 0
+              ? sortedBoardList.length / items
+              : sortedBoardList.length / items + 1
+          }
           onChange={handlePageChange}
         />
       </PaginationBox>

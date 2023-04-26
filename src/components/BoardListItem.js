@@ -22,7 +22,7 @@ const ItemContentWrapper = styled.div`
   }
 `;
 
-const BoardListItem = ({ id, title, boardWriter, regDate }) => {
+const BoardListItem = ({ id, title, writer, date }) => {
   return (
     <ItemContainer>
       <ItemContentWrapper>
@@ -31,10 +31,10 @@ const BoardListItem = ({ id, title, boardWriter, regDate }) => {
         </Link>
       </ItemContentWrapper>
       <ItemContentWrapper>
-        <h3>{boardWriter}</h3>
+        <h3>{writer}</h3>
       </ItemContentWrapper>
       <ItemContentWrapper>
-        <h3>{regDate}</h3>
+        <h3>{date}</h3>
       </ItemContentWrapper>
     </ItemContainer>
   );
