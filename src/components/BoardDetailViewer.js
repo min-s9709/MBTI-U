@@ -1,7 +1,11 @@
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { boardList } from "../recoil/boardAtom";
+import { boardDetail } from "../recoil/boardItem";
+import { boardItemDelete } from "../lib/api";
+import { userInfoState } from "../recoil/userAtom";
 
 const BoardDetailWrapper = styled.div`
   padding-left: 10px;
@@ -67,36 +71,58 @@ const BoardDetailViewer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const board = useRecoilValue(boardList);
+  const userData = useRecoilValue(userInfoState);
+  const [boardDetailItem, setBoardDetailItem] = useRecoilState(boardDetail);
+  const [boardItem] = board.filter((item) => item.id === Number(id));
   useEffect(() => {
+    setBoardDetailItem(boardItem);
     if (isOpen) {
       navigate(`/board/${id}/boardcomment`);
     } else {
       navigate(`/board/${id}`);
     }
-  }, [id, navigate, isOpen]);
-
+  }, [id, navigate, isOpen, boardItem, setBoardDetailItem]);
   const onClick = () => {
     navigate("/board");
   };
   const handleComment = () => {
     setIsOpen((prev) => !prev);
   };
+  const handleDelete = async () => {
+    try {
+      if (boardDetailItem.writer === userData.userNick) {
+        const deleteResult = await boardItemDelete(id);
+        if (deleteResult.resultCode === "success") {
+          alert("게시글 삭제 완료");
+          navigate("/board");
+        }
+      } else {
+        alert("글을 삭제할 수 있는 권한이 없습니다");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <BoardDetailWrapper>
       <BoardHead>
-        <h1>제목</h1>
+        <h1>{boardDetailItem && boardDetailItem.title}</h1>
         <BoardSubInfo>
-          <span>작성자</span>
-          <span>{new Date().toLocaleDateString()}</span>
+          <span>{boardDetailItem && boardDetailItem.writer}</span>
+          <span>{boardDetailItem && boardDetailItem.date}</span>
         </BoardSubInfo>
       </BoardHead>
-      <BoardContent>게시글 {id} 해당되는 내용입니다...</BoardContent>
+      <BoardContent
+        dangerouslySetInnerHTML={{
+          __html: boardDetailItem && boardDetailItem.content,
+        }}
+      ></BoardContent>
       <Button onClick={onClick}>게시글 목록</Button>
       <Button onClick={handleComment}>
         {isOpen ? "댓글 접기" : "댓글 펼치기"}
       </Button>
-      <Button>삭제하기</Button>
+      <Button onClick={handleDelete}>삭제하기</Button>
     </BoardDetailWrapper>
   );
 };
