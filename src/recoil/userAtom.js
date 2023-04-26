@@ -8,7 +8,7 @@ export const loadUserData = () => {
   } else {
     return {
       userNick: "",
-      userMBIT: "",
+      userMBTI: "",
     };
   }
 };
