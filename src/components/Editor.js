@@ -81,7 +81,6 @@ const Editor = () => {
     };
     try {
       const result = await boardWriteRequest(newBoardItem);
-      console.log(result);
       if (result.resultCode === "success") {
         alert("게시글 작성 완료");
         navigate("/board");
