@@ -20,3 +20,15 @@ export const loginRequest = (userNick, userPassword) => {
     .then((response) => response.data);
   return result;
 };
+
+export const boardWriteRequest = (item) => {
+  return axios
+    .post("/boardwrite", {
+      title: item.title,
+      nick: item.userNick,
+      content: item.body,
+      regdate: item.regdate,
+      mbti: item.userMBTI,
+    })
+    .then((response) => response.data);
+};
