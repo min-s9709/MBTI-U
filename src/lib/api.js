@@ -32,3 +32,11 @@ export const boardWriteRequest = (item) => {
     })
     .then((response) => response.data);
 };
+
+export const boardListGetRequest = () => {
+  return axios.get("/board").then((response) => response.data);
+};
+
+export const boardItemDelete = (id) => {
+  return axios.delete(`/board/${id}`).then((response) => response.data);
+};
