@@ -1,6 +1,41 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
+import BoardCommentListItem from "./BoardCommentListItem";
+import { useParams } from "react-router-dom";
+
+const boardCommentList = [
+  {
+    id: 1,
+    regdate: "2023.04.27",
+    content: "test comment",
+    writer: "testID",
+  },
+  {
+    id: 2,
+    regdate: "2023.04.27",
+    content: "test comment2",
+    writer: "testID",
+  },
+  {
+    id: 3,
+    regdate: "2023.04.27",
+    content: "test comment3",
+    writer: "testID",
+  },
+  {
+    id: 4,
+    regdate: "2023.04.27",
+    content: "test comment4",
+    writer: "testID",
+  },
+  {
+    id: 5,
+    regdate: "2023.04.27",
+    content: "test comment5",
+    writer: "testID",
+  },
+];
 
 const CommentWrapper = styled.div`
   padding-left: 10px;
@@ -58,31 +93,9 @@ const Button = styled.button`
     opacity: 0.8;
   }
 `;
-const CommentListItem = styled.div`
-  border-bottom: 2px solid #b2bec3;
-  padding-bottom: 25px;
-`;
-
-const CommentItemHead = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  padding-bottom: 10px;
-  h3 {
-    font-size: 12px;
-    font-weight: 500;
-    margin-right: 10px;
-  }
-  span {
-    font-size: 12px;
-  }
-`;
-
-const CommentItemContent = styled.div`
-  padding-top: 20px;
-`;
 
 const BoardCommentViewer = () => {
+  const { id } = useParams();
   return (
     <CommentWrapper>
       <CommentHead>
@@ -93,41 +106,9 @@ const BoardCommentViewer = () => {
         <CommentContent placeholder="댓글을 작성해주세요."></CommentContent>
         <Button>등록하기</Button>
       </CommentPost>
-      <CommentListItem>
-        <CommentItemHead>
-          <h3>댓글 작성자</h3>
-          <span>{new Date().toLocaleDateString()}</span>
-        </CommentItemHead>
-        <CommentItemContent>댓글 내용입니다...</CommentItemContent>
-      </CommentListItem>
-      <CommentListItem>
-        <CommentItemHead>
-          <h3>댓글 작성자</h3>
-          <span>{new Date().toLocaleDateString()}</span>
-        </CommentItemHead>
-        <CommentItemContent>댓글 내용입니다...</CommentItemContent>
-      </CommentListItem>
-      <CommentListItem>
-        <CommentItemHead>
-          <h3>댓글 작성자</h3>
-          <span>{new Date().toLocaleDateString()}</span>
-        </CommentItemHead>
-        <CommentItemContent>댓글 내용입니다...</CommentItemContent>
-      </CommentListItem>
-      <CommentListItem>
-        <CommentItemHead>
-          <h3>댓글 작성자</h3>
-          <span>{new Date().toLocaleDateString()}</span>
-        </CommentItemHead>
-        <CommentItemContent>댓글 내용입니다...</CommentItemContent>
-      </CommentListItem>
-      <CommentListItem>
-        <CommentItemHead>
-          <h3>댓글 작성자</h3>
-          <span>{new Date().toLocaleDateString()}</span>
-        </CommentItemHead>
-        <CommentItemContent>댓글 내용입니다...</CommentItemContent>
-      </CommentListItem>
+      {boardCommentList.map((item) => (
+        <BoardCommentListItem key={item.id} {...item} />
+      ))}
     </CommentWrapper>
   );
 };
