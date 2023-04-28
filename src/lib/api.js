@@ -40,3 +40,19 @@ export const boardListGetRequest = () => {
 export const boardItemDelete = (id) => {
   return axios.delete(`/board/${id}`).then((response) => response.data);
 };
+
+export const boardCommentPost = (id, item) => {
+  return axios
+    .post(`/board/${id}/boardcomment`, {
+      content: item.commentContent,
+      regdate: item.regdate,
+      writer: item.writer,
+    })
+    .then((response) => response.data);
+};
+
+export const getBoardCommentList = (id) => {
+  return axios
+    .get(`/board/${id}/boardcomment`)
+    .then((response) => response.data);
+};
