@@ -76,7 +76,7 @@ const BoardItemWrapper = styled.div`
   margin-top: 5px;
 `;
 
-const PaginationBox = styled.div`
+export const PaginationBox = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
