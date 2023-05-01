@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import BoardCommentListItem from "./BoardCommentListItem";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { boardCommentPost, getBoardCommentList } from "../lib/api";
 import { userInfoState } from "../recoil/userAtom";
@@ -73,12 +73,21 @@ const BoardCommentViewer = () => {
   const [boardComments, setBoardComments] = useRecoilState(boardCommentList);
   const [commentContent, setCommentContent] = useState("");
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
   const items = 5;
   const newCommentItem = {
     commentContent,
     regdate: new Date().toLocaleDateString(),
     writer: userData.userNick,
   };
+
+  useEffect(() => {
+    const getCommentList = async () => {
+      const result = await getBoardCommentList(id);
+      setBoardComments(result);
+    };
+    getCommentList();
+  }, []);
 
   const boardCommentsList = [...boardComments];
   const sortedBoardComments = boardCommentsList.sort((a, b) => b.id - a.id);
@@ -100,15 +109,9 @@ const BoardCommentViewer = () => {
       alert("댓글 작성 실패");
     }
     setCommentContent("");
+    navigate(`/board/${id}`);
   };
-  useEffect(() => {
-    const getCommentList = async () => {
-      const result = await getBoardCommentList(id);
-      setBoardComments(result);
-    };
-    getCommentList();
-  }, [id, setBoardComments, boardComments]);
-  console.log(boardComments);
+
   return (
     <CommentWrapper>
       <CommentHead>
@@ -126,7 +129,9 @@ const BoardCommentViewer = () => {
       {sortedBoardComments
         ? sortedBoardComments
             .slice(items * (page - 1), items * (page - 1) + items)
-            .map((item) => <BoardCommentListItem key={item.id} {...item} />)
+            .map((item) => (
+              <BoardCommentListItem articleId={id} key={item.id} {...item} />
+            ))
         : null}
       <PaginationBox>
         <Pagination
