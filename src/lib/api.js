@@ -56,3 +56,9 @@ export const getBoardCommentList = (id) => {
     .get(`/board/${id}/boardcomment`)
     .then((response) => response.data);
 };
+
+export const delBoardComment = (articleId, commentid) => {
+  return axios
+    .delete(`/board/${articleId}/boardcomment/${commentid}`)
+    .then((response) => response.data);
+};
