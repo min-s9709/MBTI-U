@@ -1,5 +1,11 @@
+import MovieViewer from "../components/MovieViewer";
+
 const Movie = () => {
-  return <div>Movie Page</div>;
+  return (
+    <>
+      <MovieViewer />
+    </>
+  );
 };
 
 export default Movie;
