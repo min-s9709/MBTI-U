@@ -32,6 +32,7 @@ body {
 	font-family: 'Source Sans Pro', sans-serif;
 	background-color: #f5f6fa;
 	height: 100vh;
+	overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
