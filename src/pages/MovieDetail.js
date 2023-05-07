@@ -1,5 +1,13 @@
+import { Outlet } from "react-router-dom";
+import MovieDetailViewer from "../components/MovieDetailViewer";
+
 const MovieDetail = () => {
-  return <div>Movie Detail Page</div>;
+  return (
+    <>
+      <MovieDetailViewer />
+      <Outlet />
+    </>
+  );
 };
 
 export default MovieDetail;
