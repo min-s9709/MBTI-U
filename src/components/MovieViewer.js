@@ -6,8 +6,9 @@ import { useState } from "react";
 import { getMovies } from "../lib/api";
 import { makeImagePath } from "../util/imagePath";
 import { useQuery } from "react-query";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
+import MovieModal from "./MovieModal";
 
 const Wrapper = styled.div`
   margin-top: 180px;
@@ -37,7 +38,7 @@ const Loader = styled.div`
 
 const MovieSlider = styled.div`
   position: relative;
-  top: -150;
+  top: -200;
 `;
 
 const Row = styled(motion.div)`
@@ -77,26 +78,6 @@ const Info = styled(motion.div)`
   }
 `;
 
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-`;
-
-const BigMovie = styled(motion.div)`
-  position: absolute;
-  width: 40vw;
-  height: 80vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background-color: #2f2f2f;
-  border-radius: 15px;
-  overflow: hidden;
-`;
 const Button = styled.button`
   width: 100px;
   cursor: pointer;
@@ -112,39 +93,6 @@ const Button = styled.button`
     scale: 1.1;
     opacity: 0.8;
   }
-`;
-const BigCover = styled.div`
-  width: 100%;
-  background-size: cover;
-  background-position: center center;
-  height: 400px;
-`;
-const BigTitle = styled.h3`
-  color: #fff;
-  padding: 10px;
-  font-size: 28px;
-  position: relative;
-  top: -60px;
-`;
-
-const BigOverview = styled.p`
-  padding: 20px;
-  position: relative;
-  color: #fff;
-  top: -60px;
-  font-size: 15px;
-`;
-
-const DetailBtn = styled.button`
-  background-color: inherit;
-  border-radius: 20px;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  position: absolute;
-  bottom: 0;
-  margin-left: 10px;
 `;
 
 const rowVariants = {
@@ -193,12 +141,11 @@ const MovieViewer = () => {
   const [leaving, setLeaving] = useState(false);
   const offset = 5;
   const navigate = useNavigate();
-  const { scrollY } = useScroll();
   const movieIdMatch = useMatch(`/movie/:id`);
   const { data, isLoading } = useQuery("movies", () =>
     getMovies(genreId[userMBTI])
   );
-  console.log(movieIdMatch);
+
   const handleIndex = () => {
     if (data) {
       if (leaving) return;
@@ -210,15 +157,8 @@ const MovieViewer = () => {
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
-  const onOverlayClick = () => {
-    navigate("/movie");
-  };
   const handleClicked = (movieId) => {
     navigate(`/movie/${movieId}`);
-  };
-
-  const handleDetail = (movieId) => {
-    navigate(`/movie/${movieId}/detail`);
   };
 
   const clickedMovie =
@@ -273,33 +213,7 @@ const MovieViewer = () => {
         <AnimatePresence>
           {movieIdMatch ? (
             <>
-              <Overlay
-                onClick={onOverlayClick}
-                exit={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              />
-              <BigMovie
-                layoutId={movieIdMatch.params.id}
-                style={{ top: scrollY.get() + 100 }}
-              >
-                {clickedMovie && (
-                  <>
-                    <BigCover
-                      style={{
-                        backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                          clickedMovie.backdrop_path,
-                          "w500"
-                        )})`,
-                      }}
-                    />
-                    <BigTitle>{clickedMovie.title}</BigTitle>
-                    <BigOverview>{clickedMovie.overview}</BigOverview>
-                    <DetailBtn onClick={() => handleDetail(clickedMovie.id)}>
-                      상세보기 ❤
-                    </DetailBtn>
-                  </>
-                )}
-              </BigMovie>
+              <MovieModal {...clickedMovie} />
             </>
           ) : null}
         </AnimatePresence>
