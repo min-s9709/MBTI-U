@@ -73,3 +73,9 @@ export const getMovies = (id) => {
     )
     .then((response) => response.data);
 };
+
+export const getMovieDetail = (id) => {
+  return axios
+    .get(`${BASE_PATH}/movie/${id}?api_key=${API_KEY}&language=ko-KR`)
+    .then((response) => response.data);
+};
