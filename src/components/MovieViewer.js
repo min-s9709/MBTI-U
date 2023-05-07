@@ -9,7 +9,8 @@ import { useQuery } from "react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
 import MovieModal from "./MovieModal";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 const Wrapper = styled.div`
   margin-top: 180px;
 `;
@@ -20,6 +21,10 @@ const RecommandInfo = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
+  h2 {
+    font-size: 24px;
+    margin-top: 15px;
+  }
 `;
 
 const Container = styled.div`
@@ -38,7 +43,7 @@ const Loader = styled.div`
 
 const MovieSlider = styled.div`
   position: relative;
-  top: -200;
+  top: -230;
 `;
 
 const Row = styled(motion.div)`
@@ -168,7 +173,12 @@ const MovieViewer = () => {
   return (
     <Wrapper>
       <RecommandInfo>
-        <h2>{userMBTI}에 맞는 영화 추천 리스트입니다.</h2>
+        <FontAwesomeIcon
+          icon={faVideo}
+          bounce
+          style={{ color: "#74b9ff", fontSize: "36px" }}
+        />
+        <h2>{`💛${userMBTI}💛 에 맞는 영화 추천 리스트`}</h2>
         <Button onClick={handleIndex}>NEXT</Button>
       </RecommandInfo>
       {isLoading ? (
