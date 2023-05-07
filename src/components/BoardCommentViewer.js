@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { boardCommentList } from "../recoil/boardComment";
 import Pagination from "react-js-pagination";
 import { PaginationBox } from "./BoardList";
-const CommentWrapper = styled.div`
+export const CommentWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   width: 1024px;
@@ -24,7 +24,7 @@ const CommentWrapper = styled.div`
   }
 `;
 
-const CommentHead = styled.div`
+export const CommentHead = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
@@ -33,7 +33,7 @@ const CommentHead = styled.div`
   }
 `;
 
-const CommentPost = styled.div`
+export const CommentPost = styled.div`
   display: flex;
   margin-top: 15px;
   border-bottom: 2px solid lightgray;
@@ -42,7 +42,7 @@ const CommentPost = styled.div`
   font-style: inherit;
 `;
 
-const CommentContent = styled.textarea`
+export const CommentContent = styled.textarea`
   width: 100%;
   height: 50px;
   padding: 5px;
@@ -50,7 +50,7 @@ const CommentContent = styled.textarea`
   border-radius: 10px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 100px;
   cursor: pointer;
   background-color: #2980b9;
