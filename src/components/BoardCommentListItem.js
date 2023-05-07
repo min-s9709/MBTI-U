@@ -5,12 +5,12 @@ import { delBoardComment } from "../lib/api";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useNavigate } from "react-router-dom";
-const CommentListItem = styled.div`
+export const CommentListItem = styled.div`
   border-bottom: 2px solid #b2bec3;
   padding-bottom: 25px;
 `;
 
-const CommentItemHead = styled.div`
+export const CommentItemHead = styled.div`
   display: flex;
   align-items: center;
   margin-top: 15px;
@@ -35,7 +35,7 @@ const CommentItemHead = styled.div`
   }
 `;
 
-const CommentItemContent = styled.div`
+export const CommentItemContent = styled.div`
   padding-top: 20px;
 `;
 

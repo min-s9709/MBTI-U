@@ -143,7 +143,7 @@ const MovieDetailViewer = () => {
               <MovieRuntime>{`상영시간 : ${data.runtime}  min🕒`}</MovieRuntime>
               <GenreList>
                 {data.genres.map((i) => (
-                  <li>{`◾${i.name}`}</li>
+                  <li key={i.id}>{`◾${i.name}`}</li>
                 ))}
               </GenreList>
               <Description>

@@ -79,3 +79,24 @@ export const getMovieDetail = (id) => {
     .get(`${BASE_PATH}/movie/${id}?api_key=${API_KEY}&language=ko-KR`)
     .then((response) => response.data);
 };
+
+export const postMovieComment = (id, userNick, movieComment) => {
+  return axios
+    .post(`/movierecommendation/${id}/moviecomment`, {
+      writer: userNick,
+      mcommentContent: movieComment,
+    })
+    .then((response) => response.data);
+};
+
+export const getMovieComments = (id) => {
+  return axios
+    .get(`/movierecommendation/${id}/moviecomment`)
+    .then((response) => response.data);
+};
+
+export const delMovieComment = (movieId, mcommentId) => {
+  return axios
+    .delete(`/movierecommendation/${movieId}/moviecomment/${mcommentId}`)
+    .then((response) => response.data);
+};
