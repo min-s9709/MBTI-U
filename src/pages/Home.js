@@ -1,5 +1,11 @@
+import HomeViewer from "../components/HomeViewer";
+
 const Home = () => {
-  return <div>Home Page</div>;
+  return (
+    <>
+      <HomeViewer />
+    </>
+  );
 };
 
 export default Home;
