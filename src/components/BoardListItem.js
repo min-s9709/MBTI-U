@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -20,6 +22,12 @@ const ItemContentWrapper = styled.div`
   a:hover {
     color: #b2bec3;
   }
+  &:nth-child(2) {
+    justify-content: left;
+    h3 {
+      margin-left: 5px;
+    }
+  }
 `;
 
 const BoardListItem = ({ id, title, writer, date }) => {
@@ -31,6 +39,7 @@ const BoardListItem = ({ id, title, writer, date }) => {
         </Link>
       </ItemContentWrapper>
       <ItemContentWrapper>
+        <FontAwesomeIcon icon={faUser} />
         <h3>{writer}</h3>
       </ItemContentWrapper>
       <ItemContentWrapper>

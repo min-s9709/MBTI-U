@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {
   CommentItemContent,
   CommentItemHead,
@@ -6,7 +5,7 @@ import {
 } from "./BoardCommentListItem";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faTrashCan, faUser } from "@fortawesome/free-regular-svg-icons";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +37,7 @@ const MovieCommentListItem = ({
     <>
       <CommentListItem>
         <CommentItemHead>
+          <FontAwesomeIcon icon={faUser} />
           <h3>{writer}</h3>
           <button onClick={handleCommentDelete}>
             <FontAwesomeIcon icon={faTrashCan} />

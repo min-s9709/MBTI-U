@@ -35,7 +35,7 @@ const Loader = styled.div`
 
 const PosterWrapper = styled.div`
   width: 45vh;
-  height: 500px;
+  height: 550px;
   border-radius: 25px;
   background-size: cover;
   background-position: center center;
@@ -43,7 +43,7 @@ const PosterWrapper = styled.div`
 
 const MovieInfo = styled.div`
   display: flex;
-  height: 500px;
+  height: 550px;
   flex-direction: column;
   justify-content: center;
   background-color: #fffffe;

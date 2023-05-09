@@ -7,13 +7,14 @@ import Pagination from "react-js-pagination";
 import { useEffect, useState } from "react";
 import { boardListGetRequest } from "../lib/api";
 import { boardList } from "../recoil/boardAtom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 const BoardListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   width: 750px;
-  height: 700px;
+  height: 630px;
   margin-top: 80px;
   justify-content: center;
   align-items: center;
@@ -81,6 +82,7 @@ export const PaginationBox = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    margin-right: 25px;
   }
   ul {
     list-style: none;
@@ -123,7 +125,7 @@ const BoardList = () => {
   const userData = useRecoilValue(userInfoState);
   const [board, setBoard] = useRecoilState(boardList);
   const [page, setPage] = useState(1);
-  const items = 10;
+  const items = 8;
   const navigate = useNavigate();
   useEffect(() => {
     const getBoardList = async () => {
@@ -143,6 +145,7 @@ const BoardList = () => {
 
   return (
     <BoardListWrapper>
+      <FontAwesomeIcon icon={faHouse} />
       <MbtiBoardName>{userData.userMBTI} 게시판</MbtiBoardName>
       <PostButtonWrapper>
         <Button onClick={onClick}>글 작성하기</Button>

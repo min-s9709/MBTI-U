@@ -5,6 +5,7 @@ import { delBoardComment } from "../lib/api";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useNavigate } from "react-router-dom";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 export const CommentListItem = styled.div`
   border-bottom: 2px solid #b2bec3;
   padding-bottom: 25px;
@@ -19,6 +20,8 @@ export const CommentItemHead = styled.div`
     font-size: 12px;
     font-weight: 500;
     margin-right: 10px;
+    margin-left: 5px;
+    font-weight: 550;
   }
   span {
     font-size: 12px;
@@ -62,6 +65,7 @@ const BoardCommentListItem = ({ articleId, id, content, regdate, writer }) => {
     <>
       <CommentListItem>
         <CommentItemHead>
+          <FontAwesomeIcon icon={faUser} />
           <h3>{writer}</h3>
           <span>{regdate}</span>
           <button onClick={handleDelete}>
