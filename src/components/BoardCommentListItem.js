@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useNavigate } from "react-router-dom";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import Swal from "sweetalert2";
 export const CommentListItem = styled.div`
   border-bottom: 2px solid #b2bec3;
   padding-bottom: 25px;
@@ -50,11 +51,19 @@ const BoardCommentListItem = ({ articleId, id, content, regdate, writer }) => {
       if (userNick === writer) {
         const result = await delBoardComment(articleId, id);
         if (result.resultCode === "success") {
-          alert("댓글 삭제 완료");
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "댓글 삭제 완료!",
+          });
           navigate(`/board/${articleId}`);
         }
       } else {
-        alert("댓글 삭제 권한이 없습니다.");
+        Swal.fire({
+          icon: "error",
+          title: "Fail!",
+          text: "삭제 권한이 없습니다!",
+        });
       }
     } catch (e) {
       console.log(e);

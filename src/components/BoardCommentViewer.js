@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { boardCommentList } from "../recoil/boardComment";
 import Pagination from "react-js-pagination";
 import { PaginationBox } from "./BoardList";
+import Swal from "sweetalert2";
 export const CommentWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -103,10 +104,18 @@ const BoardCommentViewer = () => {
     try {
       const result = await boardCommentPost(id, newCommentItem);
       if (result.resultCode === "success") {
-        alert("댓글 작성 완료!");
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "댓글 작성 완료!",
+        });
       }
     } catch (e) {
-      alert("댓글 작성 실패");
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "댓글 작성 실패",
+      });
     }
     setCommentContent("");
     navigate(`/board/${id}`);

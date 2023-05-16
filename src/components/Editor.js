@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { boardWriteRequest } from "../lib/api";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
+import Swal from "sweetalert2";
 
 const EditorWrapper = styled.div`
   width: 800px;
@@ -82,11 +83,19 @@ const Editor = () => {
     try {
       const result = await boardWriteRequest(newBoardItem);
       if (result.resultCode === "success") {
-        alert("게시글 작성 완료");
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "게시글 작성 완료!",
+        });
         navigate("/board");
       }
     } catch (e) {
-      alert("게시글 작성 실패");
+      Swal.fire({
+        icon: "error",
+        title: "Fail!",
+        text: "게시글 작성 실패",
+      });
       setTitle("");
       setBody("");
     }

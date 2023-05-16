@@ -6,7 +6,7 @@ import { boardList } from "../recoil/boardAtom";
 import { boardDetail } from "../recoil/boardItem";
 import { boardItemDelete } from "../lib/api";
 import { userInfoState } from "../recoil/userAtom";
-
+import Swal from "sweetalert2";
 const BoardDetailWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -94,11 +94,19 @@ const BoardDetailViewer = () => {
       if (boardDetailItem.writer === userData.userNick) {
         const deleteResult = await boardItemDelete(id);
         if (deleteResult.resultCode === "success") {
-          alert("게시글 삭제 완료");
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "게시글 삭제 완료!",
+          });
           navigate("/board");
         }
       } else {
-        alert("글을 삭제할 수 있는 권한이 없습니다");
+        Swal.fire({
+          icon: "error",
+          title: "Fail!",
+          text: "삭제 권한이 없습니다!",
+        });
       }
     } catch (e) {
       console.log(e);

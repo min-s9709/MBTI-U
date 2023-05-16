@@ -3,13 +3,13 @@ import {
   CommentItemHead,
   CommentListItem,
 } from "./BoardCommentListItem";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faUser } from "@fortawesome/free-regular-svg-icons";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useNavigate } from "react-router-dom";
 import { delMovieComment } from "../lib/api";
+import Swal from "sweetalert2";
 const MovieCommentListItem = ({
   movieId,
   commenId,
@@ -23,11 +23,19 @@ const MovieCommentListItem = ({
       if (userNick === writer) {
         const result = await delMovieComment(movieId, commenId);
         if (result.resultCode === "success") {
-          alert("삭제 완료");
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "후기 삭제 완료!",
+          });
           navigate(`/movie/${movieId}/detail`);
-        } else {
-          alert("삭제 권한이 없습니다.");
         }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Fail!",
+          text: "삭제 권한이 없습니다!",
+        });
       }
     } catch (e) {
       console.log(e);

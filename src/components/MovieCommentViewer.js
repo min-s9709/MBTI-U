@@ -9,15 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMovieComments, postMovieComment } from "../lib/api";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { movieCommentList } from "../recoil/movieComment";
 import MovieCommentListItem from "./MovieCommentListItem";
 import { PaginationBox } from "./BoardList";
 import Pagination from "react-js-pagination";
-
+import Swal from "sweetalert2";
 const MovieCommentWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -64,10 +63,18 @@ const MovieCommentViewer = () => {
     try {
       const result = await postMovieComment(id, userNick, movieComment);
       if (result.resultCode === "success") {
-        alert("후기 작성 완료!");
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "후기 작성 완료!",
+        });
       }
     } catch (e) {
-      alert("후기 작성 실패");
+      Swal.fire({
+        icon: "error",
+        title: "Fail!",
+        text: "후기 작성 실패!",
+      });
     }
     setMovieComment("");
     navigate(`/movie/${id}/detail`);
