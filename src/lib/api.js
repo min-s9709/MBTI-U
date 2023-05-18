@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { getCookie } from "../util/cookie.js";
 const API_KEY = "c3a057ebb4285a89137e6bef38fd3dd0";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
@@ -23,46 +23,88 @@ export const loginRequest = (userNick, userPassword) => {
     .then((response) => response.data);
   return result;
 };
-
+/* */
 export const boardWriteRequest = (item) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .post("/boardwrite", {
-      title: item.title,
-      nick: item.userNick,
-      content: item.body,
-      regdate: item.regdate,
-      mbti: item.userMBTI,
-    })
+    .post(
+      "/boardwrite",
+      {
+        title: item.title,
+        nick: item.userNick,
+        content: item.body,
+        regdate: item.regdate,
+        mbti: item.userMBTI,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
     .then((response) => response.data);
 };
 
 export const boardListGetRequest = () => {
-  return axios.get("/board").then((response) => response.data);
-};
-
-export const boardItemDelete = (id) => {
-  return axios.delete(`/board/${id}`).then((response) => response.data);
-};
-
-export const boardCommentPost = (id, item) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .post(`/board/${id}/boardcomment`, {
-      content: item.commentContent,
-      regdate: item.regdate,
-      writer: item.writer,
+    .get("/board", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
     .then((response) => response.data);
 };
 
-export const getBoardCommentList = (id) => {
+export const boardItemDelete = (id) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .get(`/board/${id}/boardcomment`)
+    .delete(`/board/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const boardCommentPost = (id, item) => {
+  const accessToken = getCookie("loginToken");
+  return axios
+    .post(
+      `/board/${id}/boardcomment`,
+      {
+        content: item.commentContent,
+        regdate: item.regdate,
+        writer: item.writer,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((response) => response.data);
+};
+
+export const getBoardCommentList = (id) => {
+  const accessToken = getCookie("loginToken");
+  return axios
+    .get(`/board/${id}/boardcomment`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((response) => response.data);
 };
 
 export const delBoardComment = (articleId, commentid) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .delete(`/board/${articleId}/boardcomment/${commentid}`)
+    .delete(`/board/${articleId}/boardcomment/${commentid}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((response) => response.data);
 };
 
@@ -81,22 +123,41 @@ export const getMovieDetail = (id) => {
 };
 
 export const postMovieComment = (id, userNick, movieComment) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .post(`/movierecommendation/${id}/moviecomment`, {
-      writer: userNick,
-      mcommentContent: movieComment,
-    })
+    .post(
+      `/movierecommendation/${id}/moviecomment`,
+      {
+        writer: userNick,
+        mcommentContent: movieComment,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
     .then((response) => response.data);
 };
 
 export const getMovieComments = (id) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .get(`/movierecommendation/${id}/moviecomment`)
+    .get(`/movierecommendation/${id}/moviecomment`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((response) => response.data);
 };
 
 export const delMovieComment = (movieId, mcommentId) => {
+  const accessToken = getCookie("loginToken");
   return axios
-    .delete(`/movierecommendation/${movieId}/moviecomment/${mcommentId}`)
+    .delete(`/movierecommendation/${movieId}/moviecomment/${mcommentId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
     .then((response) => response.data);
 };
