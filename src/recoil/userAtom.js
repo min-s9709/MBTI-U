@@ -1,18 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-export const loadUserData = () => {
-  const user = localStorage.getItem("userData");
-  if (user) {
-    return JSON.parse(user);
-  } else {
-    return {
-      userNick: "",
-      userMBTI: "",
-    };
-  }
-};
-
 const { persistAtom } = recoilPersist({
   key: "userData",
   storage: localStorage,
@@ -20,6 +8,6 @@ const { persistAtom } = recoilPersist({
 
 export const userInfoState = atom({
   key: "userData",
-  default: loadUserData(),
+  default: { userNick: "", userMBTI: "" },
   effects_UNSTABLE: [persistAtom],
 });
