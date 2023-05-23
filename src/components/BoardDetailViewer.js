@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { boardList } from "../recoil/boardAtom";
 import { boardDetail } from "../recoil/boardItem";
-import { boardItemDelete } from "../lib/api";
+import { boardItemDelete, logoutRequest } from "../lib/api";
 import { userInfoState } from "../recoil/userAtom";
 import Swal from "sweetalert2";
+import { isLogin } from "../recoil/loginStatus";
+import { removeCookie } from "../util/cookie";
 const BoardDetailWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -73,6 +75,7 @@ const BoardDetailViewer = () => {
   const { id } = useParams();
   const board = useRecoilValue(boardList);
   const userData = useRecoilValue(userInfoState);
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
   const [boardDetailItem, setBoardDetailItem] = useRecoilState(boardDetail);
   const [boardItem] = board.filter((item) => item.id === Number(id));
   useEffect(() => {
@@ -88,6 +91,19 @@ const BoardDetailViewer = () => {
   };
   const handleComment = () => {
     setIsOpen((prev) => !prev);
+  };
+  const logoutProcess = () => {
+    Swal.fire({
+      icon: "error",
+      title: "세션 만료",
+      text: "다시 로그인이 필요합니다!",
+    });
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
+    removeCookie("loginToken");
+    localStorage.clear();
   };
   const handleDelete = async () => {
     try {
@@ -109,7 +125,15 @@ const BoardDetailViewer = () => {
         });
       }
     } catch (e) {
-      console.log(e);
+      if (e.response.status === 401) {
+        try {
+          const logoutResult = await logoutRequest(userData.userNick);
+          if (logoutResult.resultCode === "success") {
+            logoutProcess();
+          }
+          navigate("/login");
+        } catch (e) {}
+      }
     }
   };
   return (

@@ -3,10 +3,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { boardWriteRequest } from "../lib/api";
-import { useRecoilValue } from "recoil";
+import { boardWriteRequest, logoutRequest } from "../lib/api";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import Swal from "sweetalert2";
+import { isLogin } from "../recoil/loginStatus";
+import { removeCookie } from "../util/cookie";
 
 const EditorWrapper = styled.div`
   width: 800px;
@@ -62,8 +64,22 @@ const Editor = () => {
   const [title, setTitle] = useState("");
   const userData = useRecoilValue(userInfoState);
   const navigate = useNavigate();
-
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
   const { userNick, userMBTI } = userData;
+
+  const logoutProcess = () => {
+    Swal.fire({
+      icon: "error",
+      title: "세션 만료",
+      text: "다시 로그인이 필요합니다!",
+    });
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
+    removeCookie("loginToken");
+    localStorage.clear();
+  };
 
   const handleContent = (value) => {
     setBody(value);
@@ -91,13 +107,23 @@ const Editor = () => {
         navigate("/board");
       }
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Fail!",
-        text: "게시글 작성 실패",
-      });
-      setTitle("");
-      setBody("");
+      if (e.response.status === 401) {
+        try {
+          const logoutResult = await logoutRequest(userNick);
+          if (logoutResult.resultCode === "success") {
+            logoutProcess();
+          }
+          navigate("/login");
+        } catch (e) {}
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Fail!",
+          text: "게시글 작성 실패",
+        });
+        setTitle("");
+        setBody("");
+      }
     }
   };
 

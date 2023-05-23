@@ -5,10 +5,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import Pagination from "react-js-pagination";
 import { useEffect, useState } from "react";
-import { boardListGetRequest } from "../lib/api";
+import { boardListGetRequest, logoutRequest } from "../lib/api";
 import { boardList } from "../recoil/boardAtom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import { isLogin } from "../recoil/loginStatus";
+import { removeCookie } from "../util/cookie";
 const BoardListWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,13 +127,42 @@ export const PaginationBox = styled.div`
 const BoardList = () => {
   const userData = useRecoilValue(userInfoState);
   const [board, setBoard] = useRecoilState(boardList);
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
   const [page, setPage] = useState(1);
   const items = 8;
   const navigate = useNavigate();
+
+  const logoutProcess = () => {
+    Swal.fire({
+      icon: "error",
+      title: "세션 만료",
+      text: "다시 로그인이 필요합니다!",
+    });
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
+    removeCookie("loginToken");
+    localStorage.clear();
+  };
+
   useEffect(() => {
     const getBoardList = async () => {
-      const result = await boardListGetRequest();
-      setBoard(result);
+      try {
+        const result = await boardListGetRequest();
+        setBoard(result);
+      } catch (e) {
+        if (e.response.status === 401) {
+          try {
+            const logoutResult = await logoutRequest(userData.userNick);
+
+            if (logoutResult.resultCode === "success") {
+              logoutProcess();
+            }
+          } catch (e) {}
+          navigate("/login");
+        }
+      }
     };
     getBoardList();
   }, [setBoard]);

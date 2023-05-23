@@ -6,6 +6,7 @@ import { removeCookie } from "../util/cookie";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { logoutRequest } from "../lib/api";
 const Wrapper = styled.div`
   display: flex;
   position: relative;
@@ -45,20 +46,25 @@ const LoginInfoArea = () => {
   const { userNick } = userData;
   const navigate = useNavigate();
 
-  const userLogout = () => {
-    setIsLogined((prev) => ({
-      ...prev,
-      login: !prev.login,
-    }));
+  const userLogout = async () => {
+    try {
+      const logoutResult = await logoutRequest(userNick);
+      if (logoutResult.resultCode === "success") {
+        setIsLogined((prev) => ({
+          ...prev,
+          login: !prev.login,
+        }));
 
-    setUserData((prev) => ({
-      ...prev,
-      userNick: "",
-      userMBTI: "",
-    }));
-    removeCookie("loginToken", { path: "/" });
-    localStorage.clear();
-    navigate("/");
+        setUserData((prev) => ({
+          ...prev,
+          userNick: "",
+          userMBTI: "",
+        }));
+        removeCookie("loginToken", { path: "/" });
+        localStorage.clear();
+        navigate("/");
+      }
+    } catch (e) {}
   };
   return (
     <Wrapper>

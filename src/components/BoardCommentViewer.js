@@ -4,13 +4,19 @@ import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import BoardCommentListItem from "./BoardCommentListItem";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { boardCommentPost, getBoardCommentList } from "../lib/api";
+import {
+  boardCommentPost,
+  getBoardCommentList,
+  logoutRequest,
+} from "../lib/api";
 import { userInfoState } from "../recoil/userAtom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { boardCommentList } from "../recoil/boardComment";
 import Pagination from "react-js-pagination";
 import { PaginationBox } from "./BoardList";
 import Swal from "sweetalert2";
+import { removeCookie } from "../util/cookie";
+import { isLogin } from "../recoil/loginStatus";
 export const CommentWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -72,6 +78,7 @@ const BoardCommentViewer = () => {
   const { id } = useParams();
   const userData = useRecoilValue(userInfoState);
   const [boardComments, setBoardComments] = useRecoilState(boardCommentList);
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
   const [commentContent, setCommentContent] = useState("");
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -82,10 +89,36 @@ const BoardCommentViewer = () => {
     writer: userData.userNick,
   };
 
+  const logoutProcess = () => {
+    Swal.fire({
+      icon: "error",
+      title: "세션 만료",
+      text: "다시 로그인이 필요합니다!",
+    });
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
+    removeCookie("loginToken");
+    localStorage.clear();
+  };
+
   useEffect(() => {
     const getCommentList = async () => {
-      const result = await getBoardCommentList(id);
-      setBoardComments(result);
+      try {
+        const result = await getBoardCommentList(id);
+        setBoardComments(result);
+      } catch (e) {
+        if (e.response.status === 401) {
+          try {
+            const logoutResult = await logoutRequest(userData.userNick);
+            if (logoutResult.resultCode === "success") {
+              logoutProcess();
+            }
+          } catch (e) {}
+          navigate("/login");
+        }
+      }
     };
     getCommentList();
   }, []);
@@ -120,7 +153,6 @@ const BoardCommentViewer = () => {
     setCommentContent("");
     navigate(`/board/${id}`);
   };
-
   return (
     <CommentWrapper>
       <CommentHead>

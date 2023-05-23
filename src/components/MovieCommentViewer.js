@@ -10,13 +10,20 @@ import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../recoil/userAtom";
 import { useState, useEffect } from "react";
-import { getMovieComments, postMovieComment } from "../lib/api";
+import {
+  getMovieComments,
+  loginRequest,
+  logoutRequest,
+  postMovieComment,
+} from "../lib/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { movieCommentList } from "../recoil/movieComment";
 import MovieCommentListItem from "./MovieCommentListItem";
 import { PaginationBox } from "./BoardList";
 import Pagination from "react-js-pagination";
 import Swal from "sweetalert2";
+import { isLogin } from "../recoil/loginStatus";
+import { removeCookie } from "../util/cookie";
 const MovieCommentWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
@@ -39,10 +46,24 @@ const MovieCommentViewer = () => {
   const { userNick } = useRecoilValue(userInfoState);
   const [movieComment, setMovieComment] = useState("");
   const [movieComments, setMovieComments] = useRecoilState(movieCommentList);
+  const [isLogined, setIsLogined] = useRecoilState(isLogin);
   useEffect(() => {
     const getMovieCommentList = async () => {
-      const result = await getMovieComments(id);
-      setMovieComments(result);
+      try {
+        const result = await getMovieComments(id);
+        setMovieComments(result);
+      } catch (e) {
+        if (e.response.status === 401) {
+          try {
+            const logoutResult = await logoutRequest(userNick);
+
+            if (logoutResult.resultCode === "success") {
+              logoutProcess();
+            }
+          } catch (e) {}
+          navigate("/login");
+        }
+      }
     };
     getMovieCommentList();
   }, []);
@@ -58,7 +79,19 @@ const MovieCommentViewer = () => {
   const handlePageChange = (page) => {
     setPage(page);
   };
-
+  const logoutProcess = () => {
+    Swal.fire({
+      icon: "error",
+      title: "세션 만료",
+      text: "다시 로그인이 필요합니다!",
+    });
+    setIsLogined((prev) => ({
+      ...prev,
+      login: !prev.login,
+    }));
+    removeCookie("loginToken");
+    localStorage.clear();
+  };
   const onPostComment = async () => {
     try {
       const result = await postMovieComment(id, userNick, movieComment);
