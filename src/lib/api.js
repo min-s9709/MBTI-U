@@ -161,3 +161,11 @@ export const delMovieComment = (movieId, mcommentId) => {
     })
     .then((response) => response.data);
 };
+
+export const logoutRequest = (userNick) => {
+  return axios
+    .post(`/min`, {
+      nick: userNick,
+    })
+    .then((response) => response.data);
+};
