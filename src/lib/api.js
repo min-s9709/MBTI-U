@@ -169,3 +169,14 @@ export const logoutRequest = (userNick) => {
     })
     .then((response) => response.data);
 };
+
+export const loginedUserList = () => {
+  const accessToken = getCookie("loginToken");
+  return axios
+    .get("/login/userlist", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response.data);
+};
