@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   width: 500px;
-  height: 610px;
+  height: 600px;
   border-radius: 40px;
   background-color: #ecf0f1;
   opacity: 1;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 85px;
+  margin-top: 80px;
   box-shadow: 0 2px 3rem rgba(0, 0, 0, 0.25), 0 2px 1px rgba(0, 0, 0, 0.22);
 `;
 
