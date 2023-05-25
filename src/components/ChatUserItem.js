@@ -40,7 +40,7 @@ const ChatUserItem = ({ nick }) => {
   return (
     <Container>
       <UserWrapper>
-        <Link to="/">
+        <Link to={`/chat/${nick}`}>
           <h3>
             <FontAwesomeIcon icon={faUser} /> {nick}
           </h3>
