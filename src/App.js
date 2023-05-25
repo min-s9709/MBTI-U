@@ -12,6 +12,7 @@ import LoginInfoArea from "./components/LoginInfoArea";
 import BoardWrite from "./pages/BoardWrite";
 import BoardComment from "./pages/BoardComment";
 import MovieComment from "./pages/MovieComment";
+import ChatWithUser from "./pages/ChatWithUser";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="boardcomment" element={<BoardComment />} />
         </Route>
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:user" element={<ChatWithUser />} />
       </Routes>
     </BrowserRouter>
   );
